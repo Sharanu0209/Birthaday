@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday! </title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #ff9a9e, #fad0c4);
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: #fff;
+      margin-top: 20px;
+      text-shadow: 2px 2px 4px #000;
+    }
+
+    p {
+      font-size: 1.5rem;
+      color: #fff;
+      margin: 10px 20px;
+    }
+
+    img {
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      border: 6px solid #fff;
+      object-fit: cover;
+      margin-top: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #ff4081;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #e91e63;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 Happy Birthday, Mayu 🎂</h1>
+  <img src="WhatsApp Image 2025-05-30 at 8.39.23 PM.jpeg" alt="Birthday Photo" />
+  <p>Wishing you a day filled with love, laughter, and care! 💖</p>
+
+  <button onclick="startCelebration()">Start Celebration 🎊</button>
+
+  <!-- Confetti -->
+  <canvas id="confetti"></canvas>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" loop>
+    <source src="WhatsApp Audio 2025-05-30 at 8.45.30 PM.mpeg" type="audio/mpeg">
+    Your browser does not support audio.
+  </audio>
+
+  <script>
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    function createParticle() {
+      return {
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        size: Math.random() * 8 + 2,
+        speed: Math.random() * 3 + 1,
+        color: `hsl(${Math.random() * 360}, 100%, 60%)`
+      };
+    }
+
+    function startCelebration() {
+      const music = document.getElementById('bgMusic');
+      music.play().catch((err) => {
+        console.error("Music play failed:", err);
+      });
+
+      for (let i = 0; i < 150; i++) {
+        particles.push(createParticle());
+      }
+    }
+
+    function update() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach((p, i) => {
+        p.y += p.speed;
+        if (p.y > canvas.height) particles[i] = createParticle();
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+      });
+      requestAnimationFrame(update);
+    }
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    update();
+  </script>
+</body>
+</html>
